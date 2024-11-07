@@ -1,1 +1,1 @@
-# programacao-estruturada
+# Atividades da Disciplina de Programação Estruturada
