@@ -115,7 +115,7 @@ Se a anotação não existir, retorna:
 ```
 
 ## Interface Web
-Criamos uma página HTML simples que interage com a API. Para usá-la:
+Esse projeto tem uma página HTML simples que interage com a API. Para usá-la:
 1. Certifique-se de que o servidor está rodando.
-2. Abra a página `public/index.html` no navegador.
+2. Abra a página a raiz do projeto "/" no navegador.
 3. Use os botões para criar, editar ou excluir anotações.

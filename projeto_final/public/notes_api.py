@@ -15,8 +15,11 @@ class Note(BaseModel):
 # Dicionário para armazenar as anotações em memória
 notes = {}
 
-# Contador para gerar os IDs das anotações
+# Contador para gerar os IDs das anotações 
 id_counter = 1
+
+# Carrega arquivos da pasta "static"
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Rota para servir o arquivo index.html quando a página principal for acessada
 @app.get("/")
