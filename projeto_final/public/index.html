@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Anotações</title>
+</head>
+<body>
+    <h1>Gerenciador de Anotações</h1>
+    <input type="text" id="title" placeholder="Título">
+    <textarea id="content" placeholder="Conteúdo"></textarea>
+    <button onclick="createNote()">Criar Anotação</button>
+    
+    <h2>Anotações</h2>
+    <ul id="notesList"></ul>
+    
+    <script>
+        async function fetchNotes() {
+            const response = await fetch('/notes');
+            const notes = await response.json();
+            const notesList = document.getElementById('notesList');
+            notesList.innerHTML = '';
+            notes.forEach(note => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${note.title}</strong>: ${note.content} 
+                <button onclick="updateNote('${note.id}')">Editar</button>
+                <button onclick="deleteNote('${note.id}')">Excluir</button>`;
+                notesList.appendChild(li);
+            });
+        }
+
+        async function createNote() {
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            await fetch('/notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, content })
+            });
+            fetchNotes();
+        }
+
+        async function updateNote(id) {
+            const newTitle = prompt('Novo título:');
+            const newContent = prompt('Novo conteúdo:');
+            if (newTitle && newContent) {
+                await fetch(`/notes/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: newTitle, content: newContent })
+                });
+                fetchNotes();
+            }
+        }
+
+        async function deleteNote(id) {
+            if (confirm('Tem certeza que deseja excluir esta anotação?')) {
+                await fetch(`/notes/${id}`, { method: 'DELETE' });
+                fetchNotes();
+            }
+        }
+
+        fetchNotes();
+    </script>
+</body>
+</html>
